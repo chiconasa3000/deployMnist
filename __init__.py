@@ -38,7 +38,7 @@ def welcome():
 @app.route('/mnistTest/')
 @app.route('/mnistTest/<name>')
 def hello(name=None):
-    return render_template('pycaretChris.html', name=name,pred=None)
+    return render_template('pycaretChris.html', name=name,pred=None,w=20,h=20,lw=1)
 
 @app.route('/predict', methods=['GET','POST'])
 def predict():
@@ -53,7 +53,7 @@ def predict():
         img = cv2.imread(filename,cv2.IMREAD_UNCHANGED)
         plt.imshow(img)
         plt.show()
-    return render_template('pycaretChris.html',pred=None)
+    return render_template('pycaretChris.html',name=None,pred=None,w=20,h=20,lw=1)
 
 
 if __name__ == '__main_':
