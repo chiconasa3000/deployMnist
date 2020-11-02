@@ -1,0 +1,2 @@
+# deployMnist
+deployment mnist model
