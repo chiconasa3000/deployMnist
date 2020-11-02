@@ -1,0 +1,25 @@
+{% extends "skeleton.html" %}
+
+{% block title %}APP - IA{% endblock %}
+
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1> Comenzando la aplicacion</h1>
+	<p> Esta aplicacion envia una imagen de un digito [0-9] 
+	de prueba y predice que número es, espero te guste</p>
+		
+	
+	{% if name %}
+		<h4>Nos vemos {{name}}</h4>
+	{% else %}
+		<h4>Nos vemos noob</h4>
+	{%endif%}
+{% endblock %}
+
+{% block footer %}
+&copy; Copyright 2020 by <a href="http://www.github.com/chiconasa3000">Chris</a>
+{% endblock %}
+
