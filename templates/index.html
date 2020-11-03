@@ -1,0 +1,37 @@
+<!doctype hmtl>
+<html>
+	<head>
+		<!-- stylesheets -->
+  		<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+		
+		<title>PythonIAPUCP</title>
+	</head>
+	<body>
+		<div class="row">
+		  <div class="col-8">
+			<h1> Prediccion de Digitos usando MNIST</h1>
+				<div id="content">
+				<form action={{url_for('predict')}} method="POST">
+				<input type="hidden" id="canvasimg" name="canvasimg" />
+				<canvas width={{w}} height={{h}}></canvas>
+				<button>Enviar Imagen</button>
+				</form>
+			</div>
+		  </div>
+		
+		  <div class="col-4">
+			<div id="footer">Prediccion es: {{pred}}</div>
+		  </div>
+		</div>
+		
+		<!-- Scripts -->
+		<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>
+
+
+	</body>
+</html>
+
+
