@@ -1,18 +1,23 @@
-body {
-	background-color: LightSteelBlue 
+
+.table{
+	border: 3px solid;
+	margin-top:40px;
 }
 
-h1,h4 {
-	color: black;
-	text-align:center;	
+
+.centrado{
+	margin:auto; max-width: 600px;
 }
 
-p {
-	text-align: center;
-	font-family: verdana;
-	font-size: 20px;
+canvas {
+	border: 3px solid;
+  	width: auto;
+  	height: auto;
+	margin-bottom: 25px;
+   	margin-top: 25px;
+   	margin-left: 10px;
 }
 
-.row{
-	margin: 1rem:
+button{
+	margin-left: 80px;
 }

@@ -16,17 +16,30 @@ from flask import Flask, session, url_for, request, render_template, redirect, j
 from PIL import Image, ImageOps
 from tensorflow import keras
 
+
 #create and configure the app
-app = Flask(__name__,template_folder='templates',static_folder='static')
+#app = Flask(__name__,template_folder='templates',static_folder='static')
+app = Flask(__name__)
+#run_with_ngrok(app)  # Start ngrok when app is run
+#app = Flask(__name__) 
+
+# Set the secret key to some random bytes. Keep this really secret!
+#session['model'] = []
+
+#@app.before_first_request
+#def before_first_request():
+ #   model = keras.models.load_model("assets/mnistmodel.h5")
+
+#app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 model = keras.models.load_model("assets/mnistmodel.h5")
 
 
 @app.route('/')
 @app.route('/<name>')
 def hello(name=None):
-    return render_template('index.html', name=name,w=260,h=260,lw=15,ret=None)
+    return render_template('index.html', name=name,pred=None,w=260,h=260,lw=15)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET','POST'])
 def predict():
     imageArray = [] 
     if request.method == 'POST':
@@ -37,9 +50,11 @@ def predict():
         with open(filename, 'wb') as f:
             f.write(binaryImg)
             f.close()
+        #img = cv2.imread(filename,cv2.IMREAD_UNCHANGED)
         image_file = Image.open(filename) # opens image
         resized_im = image_file.resize((28, 28))
         
+        #if resized_im.mode == 'RGBA':
         # Create a blank background image
         bg = Image.new('RGB', resized_im.size, (255, 255, 255))
         # Paste image to background image
@@ -52,12 +67,28 @@ def predict():
         
         resImg = np.array(gg)
         print(resImg.shape)
-        
+        #plt.figure(figsize=(10,10))
+        #plt.hist(resImg.ravel(),256,[0,256]); 
+        #plt.show()
+
         plt.imshow(gg,cmap='gray')
         plt.show()
         imageArray = np.array(gg)
         print(imageArray.shape)
         
+        #<<<<<<<<<<< En caso de Usar Modelo de Pytorch >>>>>>>>
+
+        #Crear columnas adicionales para la entrada al modelo
+        #ia = np.array(imageArray[1000,None,:,:], copy=True)
+        #print(ia.shape)
+        #pasando numpy array a tensor
+        #imgTensor = torch.from_numpy(ia)
+
+        #with torch.no_grad():
+        #  output = network(imgTensor.to(device))
+        #  print(output.shape)
+        
+        #<<<<<<<<<<<< En caso de Usar Modelo de Keras >>>>>>>>>>>><<
         prediccion = model.predict(imageArray[None,:,:,None])
 
         df = pd.DataFrame({ "Digito":list(range(0,10)), "Probabilidad":prediccion.ravel() })
@@ -67,12 +98,8 @@ def predict():
         sns.barplot(x="Probabilidad", y="Digito", data=df)
         plt.title("EL digito es un " + df.iloc[0,0]+ " con " + str(round(float(df.iloc[0,1])*100,1)) + "% de Probabilidad") 
         plt.show()
-        
-        #predList = prediccion.ravel().tolist()
-        predList = df.iloc[:,1]
-        
 
-    return render_template('index.html',name=None,w=260,h=260,lw=15,ret=predList)
+    return render_template('index.html',name=None,pred=None,w=260,h=260,lw=15)
 
 if __name__ == "__main__":
     #app.run(threaded=True)
